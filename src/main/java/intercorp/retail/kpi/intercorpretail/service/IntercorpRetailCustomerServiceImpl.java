@@ -50,7 +50,7 @@ public class IntercorpRetailCustomerServiceImpl implements IntercorpRetailCustom
 			LongAdder intanceAcumulacion = new LongAdder();
 			edades.parallelStream().forEach(intanceAcumulacion::add);
 			int sumaEdades = intanceAcumulacion.intValue();
-			double promedioEdades = sumaEdades / size;
+			double promedioEdades = sumaEdades / (double) size;
 			customerkpiDTO.setPromedioEdades(Long.valueOf(Math.round(promedioEdades)).intValue());
 			customerkpiDTO.setDesviacionEstandarEdades(calculateSD(edades));
 			return Mono.just(customerkpiDTO);
@@ -89,7 +89,7 @@ public class IntercorpRetailCustomerServiceImpl implements IntercorpRetailCustom
 				sink.complete();
 			});
 		});
-		return s.sort((o1, o2) -> (o1.getEdad() > o2.getEdad()) ? ((o1.getEdad() == o2.getEdad()) ? 0 : 1) : -1);
+		return s.sort((o1, o2) -> o1.getEdad() > o2.getEdad() ? 1 : -1);
 	}
 
 }
