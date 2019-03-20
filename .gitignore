@@ -1,0 +1,15 @@
+# package directories
+/settings/
+
+./settings/
+/target/
+./target/
+target
+
+.settings
+
+.project
+
+.target
+
+.classpath

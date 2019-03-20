@@ -102,7 +102,7 @@ public class IntercorpRetailApplicationTests {
 	}
 
 	@Test
-	public void getStandarDesviation() {
+	public void getkpideclientes() {
 		intercorpRetailCustomerDAO.clean();
 		createManyCustomer();
 		String response = "{\"promedioEdades\":30,\"desviacionEstandarEdades\":5.477225575051661}";
