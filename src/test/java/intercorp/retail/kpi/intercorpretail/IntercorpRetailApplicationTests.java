@@ -72,7 +72,7 @@ public class IntercorpRetailApplicationTests {
 		{
 			CustomerDTO createCustomer = new CustomerDTO();
 			createCustomer.setNombres("Raniel 0");
-			createCustomer.setApellidos("Freldo");
+			createCustomer.setApellidos("Freldo 2");
 			LocalDate fechaNacimiento = LocalDate.now();
 			fechaNacimiento = fechaNacimiento.withYear(1982);
 			createCustomer.setFechaNacimiento(fechaNacimiento);
@@ -82,7 +82,7 @@ public class IntercorpRetailApplicationTests {
 		{
 			CustomerDTO createCustomer = new CustomerDTO();
 			createCustomer.setNombres("Ranie 7 l");
-			createCustomer.setApellidos("Freldo");
+			createCustomer.setApellidos("Freldo 2");
 			LocalDate fechaNacimiento = LocalDate.now();
 			fechaNacimiento = fechaNacimiento.withYear(1982);
 			createCustomer.setFechaNacimiento(fechaNacimiento);
@@ -102,7 +102,7 @@ public class IntercorpRetailApplicationTests {
 	}
 
 	@Test
-	public void getStandarDesviation() {
+	public void getkpideclientes() {
 		intercorpRetailCustomerDAO.clean();
 		createManyCustomer();
 		String response = "{\"promedioEdades\":30,\"desviacionEstandarEdades\":5.477225575051661}";
@@ -110,4 +110,11 @@ public class IntercorpRetailApplicationTests {
 
 	}
 
+	@Test
+	public void getClientes() {
+		intercorpRetailCustomerDAO.clean();
+		createManyCustomer();
+		String response = "[{\"nombres\":\"Raniel 3\",\"apellidos\":\"Freldo\",\"edad\":21,\"fechaNacimiento\":\"1998-03-20\",\"fechaMuerteEstimada\":\"2067-03-20\"},{\"nombres\":\"Raniel\",\"apellidos\":\"Freldo\",\"edad\":22,\"fechaNacimiento\":\"1997-03-20\",\"fechaMuerteEstimada\":\"2065-03-20\"},{\"nombres\":\"Raniel 6\",\"apellidos\":\"Freldo\",\"edad\":25,\"fechaNacimiento\":\"1994-03-20\",\"fechaMuerteEstimada\":\"2061-03-20\"},{\"nombres\":\"Ranie 7 l\",\"apellidos\":\"Freldo 2\",\"edad\":37,\"fechaNacimiento\":\"1982-03-20\",\"fechaMuerteEstimada\":\"2042-03-20\"},{\"nombres\":\"Raniel 0\",\"apellidos\":\"Freldo 2\",\"edad\":37,\"fechaNacimiento\":\"1982-03-20\",\"fechaMuerteEstimada\":\"2042-03-20\"},{\"nombres\":\"Raniel 5\",\"apellidos\":\"Freldo\",\"edad\":38,\"fechaNacimiento\":\"1981-03-20\",\"fechaMuerteEstimada\":\"2041-03-20\"}]";
+		webTestClient.get().uri("/customers/listClientes").accept(MediaType.APPLICATION_JSON_UTF8).exchange().expectStatus().isOk().expectBody(String.class).isEqualTo(response);
+	}
 }

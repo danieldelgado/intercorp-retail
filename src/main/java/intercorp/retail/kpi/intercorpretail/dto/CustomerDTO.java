@@ -23,6 +23,7 @@ public class CustomerDTO implements Serializable{
 	private String apellidos;
 	private Integer edad;
 	private LocalDate fechaNacimiento;	
+	private LocalDate fechaMuerteEstimada;	
 	
 	
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
