@@ -13,6 +13,7 @@ import intercorp.retail.kpi.intercorpretail.dto.CustomerDTO;
 import intercorp.retail.kpi.intercorpretail.dto.CustomerkpiDTO;
 import intercorp.retail.kpi.intercorpretail.model.Customer;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Slf4j
@@ -23,8 +24,8 @@ public class IntercorpRetailCustomerServiceImpl implements IntercorpRetailCustom
 	private IntercorpRetailCustomerDAO intercorpRetailCustomerDAO;
 
 	@Autowired
-	private  IntercorpRetailLifeExpectancyComponent intercorpRetailLifeExpectancyComponent;
-	
+	private IntercorpRetailLifeExpectancyComponent intercorpRetailLifeExpectancyComponent;
+
 	@Override
 	public Mono<Void> createCustomer(CustomerDTO createCustomerDTO) {
 		log.info("create customer");
@@ -70,6 +71,25 @@ public class IntercorpRetailCustomerServiceImpl implements IntercorpRetailCustom
 		});
 		double standardDeviation = intanceAcumulacion.doubleValue();
 		return Math.sqrt(standardDeviation / length);
+	}
+
+	@Override
+	public Flux<CustomerDTO> getCustomers() {
+		log.info("obtener clientes");
+		Flux<CustomerDTO> s = intercorpRetailCustomerDAO.getCustomers().flux().flatMap(l -> {
+			return Flux.create(sink -> {
+				l.parallelStream().forEach(c -> {
+					CustomerDTO dto = new CustomerDTO();
+					dto.setNombres(c.getNombres());
+					dto.setApellidos(c.getApellidos());
+					dto.setFechaNacimiento(c.getFechaNacimiento());
+					intercorpRetailLifeExpectancyComponent.getFechaMuerteEstimadaOfCustomer(dto);
+					sink.next(dto);
+				});
+				sink.complete();
+			});
+		});
+		return s.sort((o1, o2) -> (o1.getEdad() > o2.getEdad()) ? ((o1.getEdad() == o2.getEdad()) ? 0 : 1) : -1);
 	}
 
 }
