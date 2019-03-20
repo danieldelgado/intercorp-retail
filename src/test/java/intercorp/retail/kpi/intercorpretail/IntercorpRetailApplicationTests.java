@@ -15,9 +15,10 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 import intercorp.retail.kpi.intercorpretail.dao.IntercorpRetailCustomerDAO;
 import intercorp.retail.kpi.intercorpretail.dto.CustomerDTO;
+import intercorp.retail.kpi.intercorpretail.main.IntercorpRetailApplication;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = IntercorpRetailApplication.class,  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class IntercorpRetailApplicationTests {
 	@Autowired
 	private WebTestClient webTestClient;
