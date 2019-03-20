@@ -4,8 +4,11 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ReactiveHttpOutputMessage;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,7 +26,7 @@ public class IntercorpRetailApplicationTests {
 	@Autowired
 	private WebTestClient webTestClient;
 
-	@Autowired
+	@SpyBean
 	private IntercorpRetailCustomerDAO intercorpRetailCustomerDAO;
 	
 	@Test
@@ -37,7 +40,23 @@ public class IntercorpRetailApplicationTests {
 		BodyInserter<Object, ReactiveHttpOutputMessage> inserterData = BodyInserters.fromObject(createCustomer);
 		webTestClient.post().uri("/customers/").accept(MediaType.APPLICATION_JSON_UTF8).body(inserterData).exchange().expectStatus().isOk().expectBody(String.class).isEqualTo(null);
 	}
-
+	
+	@Test
+	public void createUserErrorRuntime() {		
+		Mockito.doThrow(new NullPointerException("Error null force")).when(intercorpRetailCustomerDAO).save(Mockito.any());		
+		CustomerDTO createCustomer = new CustomerDTO();
+		createCustomer.setNombres("Daniel");
+		createCustomer.setApellidos("Delgado");
+		LocalDate fechaNacimiento = LocalDate.now();
+		fechaNacimiento = fechaNacimiento.withYear(1990);
+		createCustomer.setFechaNacimiento(fechaNacimiento);
+		BodyInserter<Object, ReactiveHttpOutputMessage> inserterData = BodyInserters.fromObject(createCustomer);	
+		LocalDate l = LocalDate.now();
+		String responseError = "{\"timestamp\":\""+l.toString()+"\",\"message\":\"Error null force\"}";
+		webTestClient.post().uri("/customers/").accept(MediaType.APPLICATION_JSON_UTF8).body(inserterData).exchange().expectStatus().isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR).expectBody(String.class).isEqualTo(responseError);
+		Mockito.reset(intercorpRetailCustomerDAO);	
+	}
+	
 	@Test
 	public void createManyCustomer() {
 		{

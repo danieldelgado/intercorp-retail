@@ -14,6 +14,8 @@ import intercorp.retail.kpi.intercorpretail.service.IntercorpRetailCustomerServi
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -25,22 +27,30 @@ public class IntercorpRetailController {
 	@Autowired
 	private IntercorpRetailCustomerService intercorpRetailCustomerService;
 
-    @ApiOperation("Creacion de clientes")
+	@ApiOperation("Creacion de clientes")
 	@PostMapping(value = "/", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Creacion exitosa"),
+			@ApiResponse(code = 500, message = "Error de sistema") })
 	public Mono<Void> createCustomer(
-			@ApiParam("informacion del cliente a crear")
-			@RequestBody CustomerDTO createCustomerDTO) {
+			@ApiParam("informacion del cliente a crear") @RequestBody CustomerDTO createCustomerDTO) {
 		return intercorpRetailCustomerService.createCustomer(createCustomerDTO);
 	}
 
-    @ApiOperation("KPI de los clientes")
+	@ApiOperation("KPI de los clientes")
 	@GetMapping(value = "/kpideclientes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Caluclo exitoso"),
+			@ApiResponse(code = 500, message = "Error de sistema") })
 	public Mono<CustomerkpiDTO> kpideclientes() {
 		return intercorpRetailCustomerService.kpideclientes();
 	}
 
-    @ApiOperation("Lista de clientes con fecha estimada de muerte")
+	@ApiOperation("Lista de clientes con fecha estimada de muerte")
 	@GetMapping(value = "/listClientes", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ApiResponses(value = { 
+			@ApiResponse(code = 200, message = "Lista de clientes exitosa"),
+			@ApiResponse(code = 500, message = "Error de sistema") })
 	public Flux<CustomerDTO> getCustomers() {
 		return intercorpRetailCustomerService.getCustomers();
 	}
