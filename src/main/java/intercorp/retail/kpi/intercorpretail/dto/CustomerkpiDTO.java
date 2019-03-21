@@ -17,6 +17,6 @@ import lombok.Setter;
 @JsonInclude(Include.NON_NULL)
 @ApiModel(description = "Clase del KPI de clientes")
 public class CustomerkpiDTO implements Serializable {
-	private int promedioEdades;
+	private double promedioEdades;
 	private double desviacionEstandarEdades;
 }
