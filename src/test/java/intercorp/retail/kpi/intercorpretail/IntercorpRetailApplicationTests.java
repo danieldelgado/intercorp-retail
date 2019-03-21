@@ -125,7 +125,7 @@ public class IntercorpRetailApplicationTests {
 	public void getkpideclientes() {
 		intercorpRetailCustomerDAO.clean();
 		createManyCustomer();
-		String response = "{\"promedioEdades\":30,\"desviacionEstandarEdades\":5.477225575051661}";
+		String response = "{\"promedioEdades\":30.0,\"desviacionEstandarEdades\":5.477225575051661}";
 		webTestClient.get().uri("/customers/kpideclientes").accept(MediaType.APPLICATION_JSON_UTF8).exchange().expectStatus().isOk().expectBody(String.class).isEqualTo(response);
 
 	}

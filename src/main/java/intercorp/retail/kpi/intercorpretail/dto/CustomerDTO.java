@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -19,25 +21,32 @@ import lombok.Setter;
 @Getter
 @JsonInclude(Include.NON_NULL)
 @ApiModel(description = "Clase del cliente")
-public class CustomerDTO implements Serializable{
+public class CustomerDTO implements Serializable {
 
-	@ApiModelProperty(notes = "Idenificador unico", example = "1", required = false, position = 0)
-    private Long id;
+	@ApiModelProperty(notes = "Idenificador unico", required = false, position = 0)
+	private Long id;
+
+	@NotNull
 	@ApiModelProperty(notes = "Nombres del cliente", example = "Daniel", required = true, position = 1)
-    private String nombres;
+	private String nombres;
+
+	@NotNull
 	@ApiModelProperty(notes = "Apellidos del cliente", example = "Delgado", required = true, position = 2)
-    private String apellidos;
+	private String apellidos;
+
 	@ApiModelProperty(notes = "Edad del clente", required = false, position = 3)
-    private Integer edad;
+	private Integer edad;
+
+	@NotNull
 	@ApiModelProperty(notes = "Fecha de nacimiento", example = "1990-03-20", required = true, position = 4)
-    private LocalDate fechaNacimiento;	
+	private LocalDate fechaNacimiento;
+
 	@ApiModelProperty(notes = "Fecha de muerte estimada", example = "2048-03-20", required = true, position = 5)
-    private LocalDate fechaMuerteEstimada;	
-	
+	private LocalDate fechaMuerteEstimada;
+
 	public void setFechaNacimiento(LocalDate fechaNacimiento) {
 		this.edad = Period.between(fechaNacimiento, LocalDate.now()).getYears();
-		this.fechaNacimiento=fechaNacimiento;
+		this.fechaNacimiento = fechaNacimiento;
 	}
-	
-	
+
 }
