@@ -1,15 +1,15 @@
 package intercorp.retail.kpi.intercorpretail.util;
 
+import java.security.SecureRandom;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.atomic.DoubleAdder;
 
 public class Util {
 
-	private static final Random random = new Random(99999999999L);
+	private static final SecureRandom secRandom = new SecureRandom();
 
 	public static Long generaId() {
-		return Long.valueOf(random.nextInt());
+		return Long.valueOf(secRandom.nextInt(99999999));
 	}
 
 	public static double acumuladorNumber(List<Integer> numbers) {

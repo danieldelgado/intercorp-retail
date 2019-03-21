@@ -1,0 +1,15 @@
+
+## compile
+
+mvn clean verify install
+
+
+## Generate image
+
+docker build --build-arg artifact_id=intercorp-retail--build-arg artifact_version=0.0.1-SNAPSHOT --tag=intercorp-retail:1.0.0 --rm=true .
+docker run -d  --name intercorp-retail -p 8080:8080 intercorp-retail:1.0.0
+
+## Configuracion local 
+
+Archivo : application.properties
+* Modificar la ruta base del volumen o disco.
